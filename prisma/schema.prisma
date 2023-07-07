@@ -17,6 +17,13 @@ model User {
   password Password?
 }
 
+model Article {
+  id    String @id @default(cuid())
+  name  String @unique
+  image String
+  slug  String
+}
+
 model Password {
   hash String
 

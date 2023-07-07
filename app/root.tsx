@@ -1,5 +1,5 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -10,6 +10,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { BsFillVolumeUpFill, BsFillVolumeMuteFill } from "react-icons/bs"
 import { getUser } from "~/session.server";
 import stylesheet from "~/tailwind.css";
 
@@ -18,11 +19,14 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
+export const meta: V2_MetaFunction = () => [{ title: "Algo Solved" }];
+
 export const loader = async ({ request }: LoaderArgs) => {
   return json({ user: await getUser(request) });
 };
 
 export default function App() {
+  const hasVolume = true
   return (
     <html lang="en" className="h-full">
       <head>
@@ -31,7 +35,13 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-full">
+      <body className=" relative">
+        <div className="stars"></div>
+        <div className="twinkling"></div>
+        <div className="clouds"></div>
+        <div className="relative z-50 text-white py-10 px-10 flex justify-end text-5xl">
+          {hasVolume ? <BsFillVolumeUpFill /> : <BsFillVolumeMuteFill />}
+        </div>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
